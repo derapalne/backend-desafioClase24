@@ -31,14 +31,14 @@ app.use(cookieParser());
 app.use(
     session({
         store: MongoStore.create({
-            mongoUrl: "mongodb+srv://dera:coderhaus@cluster0.78ayu.mongodb.net/?retryWrites=true&w=majority",
+            mongoUrl: "mongodb+srv://dera:xxxx@cluster0.78ayu.mongodb.net/?retryWrites=true&w=majority",
             mongoOptions: advancedOptions
         }),
         secret: "andywarhol",
         resave: false,
         saveUninitialized: false,
         cookie: {
-            maxAge: 60000,
+            maxAge: 600000,
         },
     })
 );
