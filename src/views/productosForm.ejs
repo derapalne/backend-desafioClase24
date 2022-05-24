@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productos :)</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    body {
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+      text-align: center;
+      padding: 10px;
+      background-image: url('/images/back.png');
+      background-repeat: repeat;
+      background-color: rgb(19, 34, 80);
+      color: gainsboro;
+    }
+
+    table,
+    th,
+    td {
+      border: 1px gainsboro;
+      border-style: groove;
+      border-radius: 5px;
+      /* border-collapse: collapse; */
+    }
+
+    table {
+      background-color: #132250;
+      width: 70%;
+      margin: auto;
+    }
+
+    img {
+      width: 64px;
+    }
+
+    p {
+      margin: 0% 1px;
+    }
+
+    #chat {
+      text-align: left;
+      width: 70%;
+      margin: auto;
+    }
+
+    .contenedor {
+      border: solid 1px gainsboro;
+      background-image: url('./images/backProds.png');
+      background-color: #77f;
+      width: 50%;
+      margin: auto;
+      padding-bottom: 10px;
+    }
+
+    #login {
+        background-image: url('./images/backLogin.png');
+    }
+  </style>
+</head>
+
+<body>
+    <div id="login" class="contenedor">
+        <h1>Qué tal <%=nombreUsuario%>, como andamos?</h1>
+        <form action="/logout" method="post">
+            <input type="submit" id="logout" value="Desloguearse"/>
+        </form>
+    </div>
+    <br/>
+  <div id="contenido">
+    <div id="ingresoProductos" class="contenedor">
+      <h1>Ingrese los productos por favor</h1>
+      <form>
+        <label for="title">Título</label>
+        <input type="text" name="title" id="title" /> <br />
+
+        <label for="price">Precio</label>
+        <input type="number" name="price" id="price" /> <br />
+
+        <label for="thumbnail">Thumbnail</label>
+        <input type="text" name="thumbnail" id="thumbnail" /> <br />
+
+        <input type="submit" id="agregar" value="Agregar" />
+      </form>
+      <small id="mensaje-form" style="background-color: pink; color: red"></small>
+    </div>
+    <br />
+    <div>
+      <% if(prods.length >= 1) { %>
+      <table id="tabla">
+        <thead>
+          <td style="background-color:#77f">Título</td>
+          <td style="background-color:#77f">Precio</td>
+          <td style="background-color:#77f">Imagen</td>
+        </thead>
+        <tbody>
+          <% prods.forEach((prod) => { %>
+          <tr>
+            <td style="background-color:#77f"><%=prod.title %></td>
+            <td style="background-color:#77f"><%=prod.price %></td>
+            <td style="background-color:#77f"><img src= <%=prod.thumbnail%> /></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <% } else { %>
+      <p style="background-color: plum">No hay productos</p>
+      <% } %>
+    </div>
+    <br />
+    <div>
+      <div id="chat" style="color: sienna;background-image: url('/images/backChat.png'); padding: 1px;">
+        <% if(mensajes.length > 0) { %>
+        <% mensajes.forEach( (mensaje) => { %>
+        <p style="background-color:#ccf9;text-shadow:1px 1px 2px">
+          <strong style="color: #77f"><%=mensaje.mail%></strong>
+          | <%=mensaje.timestamp%> :
+          <em style="color: green"><%=mensaje.texto%></em>
+        </p>
+        <% }); %>
+        <% } %>
+      </div>
+      <br />
+      <form>
+        <input type="email" name="mail" id="mail" placeholder="Ingrese su e-mail" />
+
+        <input type="text" name="mensaje" id="mensaje-chat" placeholder="Escriba aquí" />
+
+        <input type="submit" name="enviar" id="enviar" value="Enviar" disabled />
+      </form>
+    </div>
+  </div>
+  <script src="/productosForm.js"></script>
+</body>
+
+</html>

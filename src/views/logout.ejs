@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Productos :)</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    body {
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+      text-align: center;
+      padding: 10px;
+      background-image: url('/images/back.png');
+      background-repeat: repeat;
+      background-color: rgb(19, 34, 80);
+      color: gainsboro;
+    }
+
+    .contenedor {
+      border: solid 1px gainsboro;
+      background-image: url('./images/backProds.png');
+      background-color: #77f;
+      width: 50%;
+      margin: auto;
+      padding-bottom: 10px;
+    }
+
+    #login {
+      background-image: url('./images/backLogin.png');
+    }
+
+    p {
+        font-family: cursive;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="login" class="contenedor">
+    <p>Nos re vimos <%= nombreUsuario %></p>
+    <p>Pegate una vuelta cuando quieras, no seas gato</p>
+  </div>
+  <br />
+  <script src="/logout.js"></script>
+</body>
+
+</html>
