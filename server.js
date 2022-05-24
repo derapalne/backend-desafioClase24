@@ -134,9 +134,13 @@ app.get("/datos", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    const nombreUsuario = req.body.nombreUsuario;
-    req.session.nombreUsuario = nombreUsuario;
-    res.status(200).redirect("/");
+    try {
+        const nombreUsuario = req.body.nombreUsuario;
+        req.session.nombreUsuario = nombreUsuario;
+        res.status(200).redirect("/");
+    } catch (e) {
+        req.status(500).send(e);
+    }
 });
 
 app.post("/logout", isLogged, (req, res) => {
