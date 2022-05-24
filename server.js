@@ -1,23 +1,39 @@
+// [ --------- IMPORTS LOCALES --------- ] //
 import ArchivadorProductos from "./src/daos/archivadorDaoProductos.js";
 import { optionsMariaDB } from "./src/options/mariaDB.js";
 import ArchivadorMensajes from "./src/daos/archivadorDaoMensajes.js";
 import { optionsSQLite } from "./src/options/SQLite3.js";
 import Mocker from "./src/utils/mocker.js";
 const mocker = new Mocker();
+
+// [ --------- IMPORTS NPM --------- ] //
 import session from "express-session";
 import cookieParser from "cookie-parser";
-
 import express from "express";
 import { Server as HttpServer } from "http";
 import { Server as IOServer } from "socket.io";
+import MongoStore from "connect-mongo";
+const advancedOptions = {useNewUrlParser: true, useUnifiedTopology: true};
 
+
+// [ --------- CONFIGURACION --------- ] //
+
+// >Servidor
 const app = express();
 const httpServer = new HttpServer(app);
 const io = new IOServer(httpServer);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// >Cookies y sesiones
 
 app.use(cookieParser());
 app.use(
     session({
+        store: MongoStore.create({
+            mongoUrl: "mongodb+srv://dera:coderhaus@cluster0.78ayu.mongodb.net/?retryWrites=true&w=majority",
+            mongoOptions: advancedOptions
+        }),
         secret: "andywarhol",
         resave: false,
         saveUninitialized: false,
@@ -27,17 +43,19 @@ app.use(
     })
 );
 
+// >DBs
 const archMensajes = new ArchivadorMensajes("chat", optionsSQLite);
 archMensajes.chequearTabla();
 const archProductos = new ArchivadorProductos("productos", optionsMariaDB);
 archProductos.chequearTabla();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
+// >Motor de plantillas
 app.use(express.static("./public"));
 app.set("views", "./src/views");
 app.set("view engine", "ejs");
+
+// >Inicializador
 
 const inicializarProductos = () => {
     archProductos.save({
